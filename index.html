@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Sinclair Demos</title>
+        <link rel="stylesheet" href="./css/style.css" type="text/css" />
+        <script type="text/javascript" src="./js/pts.js"></script>
+        
+    </head>
+
+    <body>
+        
+        <div id="pt">
+            <canvas id="pt_canvas"></canvas>
+        </div>
+        <div id="editor"></div>
+        <div id="open">
+            <input type="text" id="openFile" placeholder="open file..." />
+        </div>
+        <div id="run">
+            <button id="runFile">Run</button>
+        </div>
+        <div id="links">
+            <a href="http://ptsjs.org/docs/" target="pts_ref">pts docs</a>
+        </div>
+        
+        <script type="text/javascript" src="./js/app.js"></script>
+
+        <script src="./js/vs/loader.js"></script>
+        <script>
+            require.config({ paths: { 'vs': './js/vs' }});
+            require(['vs/editor/editor.main'], function() {
+                window.editor = monaco.editor.create(document.getElementById('editor'), {
+                    value: "loading...",
+                    language: 'javascript',
+                    theme: "vs-dark",
+                    minimap: {
+                        enabled: false
+                    }
+                });
+
+                loadSrc( "pts_test.js" ); // load a file
+            });
+        </script>
+    </body>
+</html>
