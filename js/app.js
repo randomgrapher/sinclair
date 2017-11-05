@@ -1,6 +1,11 @@
 Pts.namespace( this );
 
 
+function loadRecent() {
+    let f = localStorage.getItem("sinclair.last_file") || "pts_test";
+    loadSrc( f+".js" )
+}
+
 function loadSrc( file ) {
     var client = new XMLHttpRequest();
     client.open('GET', './src/'+file);
@@ -21,6 +26,7 @@ var fileInput = document.querySelector("#openFile");
 fileInput.addEventListener( "keyup", function(e) {
     if (e.which === 13) { //pressed ENTER
         loadSrc( fileInput.value +".js" )
+        localStorage.setItem("sinclair.last_file", fileInput.value );
     }
 });
 
