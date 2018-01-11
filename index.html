@@ -26,19 +26,37 @@
 
         <script src="./js/vs/loader.js"></script>
         <script>
-            require.config({ paths: { 'vs': './js/vs' }});
-            require(['vs/editor/editor.main'], function() {
-                window.editor = monaco.editor.create(document.getElementById('editor'), {
-                    value: "loading...",
-                    language: 'javascript',
-                    theme: "vs-dark",
-                    minimap: {
-                        enabled: false
-                    }
-                });
 
-                loadRecent();
-            });
+            var ptsdef = "";
+
+            var client = new XMLHttpRequest();
+                client.open('GET', './pts.d.ts');
+                client.onload = function() {
+                    ptsdef = (client.responseText);
+                    vscode();
+                }
+            client.send();
+
+            function vscode() {
+                require.config({ paths: { 'vs': './js/vs' }});
+                require(['vs/editor/editor.main'], function() {
+                    
+                    monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                        ptsdef
+                    );
+                    
+                    window.editor = monaco.editor.create(document.getElementById('editor'), {
+                        value: "loading...",
+                        language: 'javascript',
+                        theme: "vs-dark",
+                        minimap: {
+                            enabled: false
+                        }
+                    });
+
+                    window.loadRecent();
+                });
+            }
         </script>
     </body>
 </html>
